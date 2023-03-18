@@ -57,7 +57,10 @@ class PostController extends Controller
     {
         return view('post.update');
     }
-    
+    public function store()
+    {
+        return redirect()->route('posts.index');
+    }
     
 
 }
