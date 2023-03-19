@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->paginate(10);
+        $posts = Post::with('user')->paginate(1);
         return view('post.index', compact('posts'));
     }
 
@@ -64,7 +64,6 @@ class PostController extends Controller
         $post->save();
     
         $updatedPost = Post::with('user')->findOrFail($id);     
-        dd($updatedPost,User::all());   
         return view('post.show', ['post' => $updatedPost]);
         
         // return redirect()->route('posts.show', [$post->id,'post'=>$post])

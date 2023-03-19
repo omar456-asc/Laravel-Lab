@@ -36,7 +36,11 @@
                 </tr>
             @endforeach
         </tbody>
+            
     </table>
+    <div class="d-flex justify-content-center">
+    {{ $posts->links('vendor.pagination.pagination') }}
+    </div>
 
 @endsection
 
