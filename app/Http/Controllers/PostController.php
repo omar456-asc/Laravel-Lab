@@ -3,64 +3,80 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $allPosts = [
-            [
-                'id' => 1,
-                'title' => 'Laravel',
-                'posted_by' => 'Ahmed',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-
-            [
-                'id' => 2,
-                'title' => 'PHP',
-                'posted_by' => 'Mohamed',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-
-            [
-                'id' => 3,
-                'title' => 'Javascript',
-                'posted_by' => 'Ali',
-                'created_at' => '2022-08-01 10:00:00'
-            ],
-        ];
-
-        return view('post.index', ['posts' => $allPosts]);
+        $posts = Post::with('user')->paginate(10);
+        return view('post.index', compact('posts'));
     }
 
     public function show($id)
     {
-//        dd($id);
-        $post =  [
-            'id' => 3,
-            'title' => 'Javascript',
-            'posted_by' => 'Ali',
-            'created_at' => '2022-08-01 10:00:00',
-            'description' => 'hello description',
-        ];
-
-//        dd($post);
-
-        return view('post.show', ['post' => $post]);
+        $post = Post::with('user')->findOrFail($id);
+        return view('post.show', compact('post'));
     }
+
     public function create()
     {
-        return view('post.create');
+        $users = User::all();
+        return view('post.create', compact('users'));
     }
-    public function update()
-    {
-        return view('post.update');
-    }
-    public function store()
-    {
-        return redirect()->route('posts.index');
-    }
-    
 
+    public function store(Request $request)
+    {
+        $title = $request->title;
+        //dd($title);
+        $description = $request->description;
+        $postCreator = $request->post_creator;
+
+        Post::create([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $postCreator,
+        ]);
+
+        return redirect()->route('posts.index')
+                         ->with('success', 'Post created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $users = User::all();
+        return view('post.edit', ['post'=>$post, 'users'=>$users]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $post = Post::findOrFail($id);
+
+        $title = $request->title;
+        //dd($title);
+        $description = $request->description;
+        $postCreator = $request->post_creator;
+        $post->title = $title;
+        $post->description = $description;
+        $post->user_id = $postCreator;
+        $post->save();
+    
+        $updatedPost = Post::with('user')->findOrFail($id);     
+        dd($updatedPost,User::all());   
+        return view('post.show', ['post' => $updatedPost]);
+        
+        // return redirect()->route('posts.show', [$post->id,'post'=>$post])
+        //                  ->with('success', 'Post updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::findOrFail($id);
+        $post->delete();
+
+        return redirect()->route('posts.index')
+                         ->with('success', 'Post deleted successfully.');
+    }
 }

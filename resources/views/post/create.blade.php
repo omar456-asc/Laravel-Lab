@@ -11,7 +11,7 @@
 
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" name="title" id="title" class="form-control" required>
+            <input name="title" type="text" name="title" id="title" class="form-control" required>
         </div>
 
         <div class="form-group">
@@ -21,7 +21,11 @@
 
         <div class="form-group">
             <label for="posted_by">Posted By</label>
-            <input type="text" name="posted_by" id="posted_by" class="form-control" required>
+            <select name="post_creator" class="form-control">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+            </select>
         </div>
 
         <x-button type="danger">Create</x-button>
