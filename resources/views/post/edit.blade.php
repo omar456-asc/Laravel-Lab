@@ -24,9 +24,7 @@
             <label for="posted_by">Posted By</label>
             <select name="posted_by" id="posted_by" class="form-control" required>
                 @foreach($users as $user)
-                <option value="{{ $user->id }}" @if ($user->id == old('user_id', $post->user_id)) selected @endif>
-                        {{ $user->name }}
-                    </option>
+                <option value="{{$user->id}}" {{$post->user->id === $user->id ? "selected" : ""}}>{{$user->name}}</option>
                 @endforeach
             </select>
         </div>
