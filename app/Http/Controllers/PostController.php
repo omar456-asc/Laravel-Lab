@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->paginate(1);
+        $posts = Post::with('user')->paginate(5);
         return view('post.index', compact('posts'));
     }
 
@@ -50,10 +50,9 @@ class PostController extends Controller
         return view('post.edit', ['post'=>$post, 'users'=>$users]);
     }
 
-    public function update(Request $request, $id)
+    public function update1(Request $request, $id)
     {
         $post = Post::findOrFail($id);
-
         $title = $request->title;
         //dd($title);
         $description = $request->description;
@@ -63,12 +62,22 @@ class PostController extends Controller
         $post->user_id = $postCreator;
         $post->save();
     
-        $updatedPost = Post::with('user')->findOrFail($id);     
-        return view('post.show', ['post' => $updatedPost]);
+        $updatedPost = Post::with('user')->findOrFail($id);
+        //$post = Post::with('user')->findOrFail($id);
+
+        return to_route('posts.index')
+                    ->with('success', 'Post updated successfully');
         
         // return redirect()->route('posts.show', [$post->id,'post'=>$post])
         //                  ->with('success', 'Post updated successfully.');
     }
+
+    public function update(Post $post,Request $request)
+  {
+    $post->update($request->all());
+
+    return redirect()->route("posts.index");
+  }
 
     public function destroy($id)
     {
