@@ -25,13 +25,23 @@
                     <td>{{ optional($post->user)->name ?? 'Not Found' }}</td>
                     <td>{{$post->created_at->format('M d, Y')}}</td>
                     <td>
-                        <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                            @if($post->trashed())
+                            <form action="{{ route('posts.restore', $post->id) }}" method="POST">
+                            @csrf
+                            @method('POST')
+                            <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">View</a>
+                            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success">Edit</a>
+                            <button type="submit" class="btn btn-info">Restore</button>
+                            </form>
+                            @else
+                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?')">
                             @csrf
                             @method('DELETE')
                             <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">View</a>
                             <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-success">Edit</a>
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
-                        </form>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            @endif
                     </td>
                 </tr>
             @endforeach

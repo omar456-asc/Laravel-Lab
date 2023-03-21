@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->paginate(2);
+        $posts = Post::withTrashed()->paginate(5);
         return view('post.index', compact('posts'));
     }
 
@@ -50,27 +51,6 @@ class PostController extends Controller
         return view('post.edit', ['post'=>$post, 'users'=>$users]);
     }
 
-    public function update1(Request $request, $id)
-    {
-        $post = Post::findOrFail($id);
-        $title = $request->title;
-        //dd($title);
-        $description = $request->description;
-        $postCreator = $request->post_creator;
-        $post->title = $title;
-        $post->description = $description;
-        $post->user_id = $postCreator;
-        $post->save();
-    
-        $updatedPost = Post::with('user')->findOrFail($id);
-        //$post = Post::with('user')->findOrFail($id);
-
-        return to_route('posts.index')
-                    ->with('success', 'Post updated successfully');
-        
-        // return redirect()->route('posts.show', [$post->id,'post'=>$post])
-        //                  ->with('success', 'Post updated successfully.');
-    }
 
     public function update(Post $post,Request $request)
   {
@@ -87,4 +67,10 @@ class PostController extends Controller
         return redirect()->route('posts.index')
                          ->with('success', 'Post deleted successfully.');
     }
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->find($id);
+        $post->restore();
+        return redirect()->back();
+    }  
 }
