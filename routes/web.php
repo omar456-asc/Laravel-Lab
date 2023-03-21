@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::post('/comments', [CommentsController::class, 'store'])->name('comments.store');
+    Route::get('/posts/{id}/view', [PostController::class, 'view'])->name('posts.view');
     
     Route::post('/posts/{post}/restore', [PostController::class,"restore"])->name("posts.restore");
     Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');

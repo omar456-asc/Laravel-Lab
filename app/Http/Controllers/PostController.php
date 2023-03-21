@@ -73,4 +73,15 @@ class PostController extends Controller
         $post->restore();
         return redirect()->back();
     }  
+    public function view($id)
+{
+    $post = Post::find($id);
+
+    return response()->json([
+        'title' => $post->title,
+        'description' => $post->description,
+        'username' => $post->user->name,
+        'useremail' => $post->user->email,
+    ]);
+}
 }

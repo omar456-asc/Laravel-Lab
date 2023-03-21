@@ -20,7 +20,7 @@
         <div class="card-body">
             <h5 class="card-title">Author: {{ optional($post->user)->name ?? 'Not Found' }}</h5>
             <p class="card-text">Email: {{optional($post->user)->email ?? 'Not Found'}}</p>
-            <p class="card-text">Created At {{$post->created_at->format('M d, Y')}}</p>
+            <p class="card-text">Created  {{$post->human_readable_date}}</p>
         </div>
     </div>
     <div>
