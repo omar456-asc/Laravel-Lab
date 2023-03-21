@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->paginate(1);
+        $posts = Post::with('user')->paginate(2);
         return view('post.index', compact('posts'));
     }
 

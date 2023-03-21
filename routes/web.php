@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-//Route::get('/', [TestController::class, 'test']);
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index')->middleware(['auth']);
 
