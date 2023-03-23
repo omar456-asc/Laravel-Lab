@@ -39,6 +39,7 @@ class Post extends Model
         'title',
         'description',
         'user_id',
+        'image'
     ];
 
     public function user(): BelongsTo
@@ -53,5 +54,11 @@ class Post extends Model
     {
         return $this->created_at->diffForHumans();
     }
+    protected function image():Attribute
+    {
+        return Attribute::make(
+        get: fn ($value) => asset("storage/". $value)
+        );
 
+    }
 }

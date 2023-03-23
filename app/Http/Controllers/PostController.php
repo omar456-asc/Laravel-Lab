@@ -29,10 +29,10 @@ class PostController extends Controller
         return view('post.create', compact('users'));
     }
 
-    public function store(Request $request)
+    public function store1(Request $request)
     {
-        $title = $request->title;
         //dd($title);
+        $title = $request->title;
         $description = $request->description;
         $postCreator = $request->post_creator;
 
@@ -45,6 +45,22 @@ class PostController extends Controller
         return redirect()->route('posts.index')
                          ->with('success', 'Post created successfully.');
     }
+    public function store(Request $request)
+  {
+        $title = $request->title;
+        $description = $request->description;
+        $postCreator = $request->post_creator;
+        //$image = $request->file('image')->store('images',['disk' => "public"]);
+        $image = $request->file('image')->store('storage');
+        Post::create([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $postCreator,
+            'image' => $image,
+        ]);
+
+    return redirect()->route("posts.index");
+  }
     
     public function edit($id)
     {

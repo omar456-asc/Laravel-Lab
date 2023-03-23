@@ -20,7 +20,10 @@
         <div class="card-body">
             <h5 class="card-title">Author: {{ optional($post->user)->name ?? 'Not Found' }}</h5>
             <p class="card-text">Email: {{optional($post->user)->email ?? 'Not Found'}}</p>
-            <p class="card-text">Created  {{$post->human_readable_date}}</p>
+            <img src="{{Storage::url($post->image)}}" style="width: 250px" alt="">
+
+            
+      <p class="card-text text-muted mt-2 fs-6">{{$post->human_readable_date}}</p>
         </div>
     </div>
     <div>
