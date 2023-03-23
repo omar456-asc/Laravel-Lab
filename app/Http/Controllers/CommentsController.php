@@ -38,7 +38,7 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
 {
-    $body = $request->body;
+    $body = $request->body; 
         //dd($title);
         $commentable_id = $request->commentable_id;
         $commentable_type = $request->commentable_type;
@@ -52,27 +52,6 @@ class CommentsController extends Controller
     return redirect()->back();
 }
 
-public function store1(Request $request)
-{
-    $postCreator = $request->post_creator;
-    dd($postCreator);
-    
-    $validatedData = $request->validate([
-    'body' => 'required',
-    'commentable_id' => 'required',
-    'commentable_type' => 'required',
-    ]);
-    Comment::create([
-        'body'=> $validatedData['body'],
-        'commentable_type'=> $validatedData['commentable_type'],
-        'commentable_id'=> $validatedData['commentable_id'],
-        'user_id'=>1,
-    ]);
-    return redirect()->back();
-    
-    //return redirect()->route('posts.show', $validatedData['commentable_id'])->with('success', 'Comment created successfully.');
-
-}
     /**
      * Display the specified resource.
      *

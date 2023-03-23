@@ -55,5 +55,7 @@
     @endforeach
 </div>
 
+<livewire:add-comment :post="$post" />
 
+<livewire:comments :post="$post" />
 @endsection

@@ -43,13 +43,21 @@
                             </form>
                             @endif
                     </td>
+                    @if(!$post->trashed())
                     <td>
                     <form action="{{ route('posts.view', $post->id) }}" method="GET">
                     @csrf
                     @method('GET')        
-                    <button type="button" class="btn btn-primary postModal" data-toggle="modal" data-target="#postModal" data-id="{{ $post->id }}" :link="route('posts.view',$post->id)">View Ajax</button>
-
-<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+                    <button class="btn btn-primary view-post" data-id="{{ $post->id }}">View Ajax</button>
+                    </form>
+                    </td>
+                    @endif
+                </tr>
+            @endforeach
+        </tbody>
+            
+    </table>
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,45 +73,42 @@
                 <p>User Email: <span id="postUseremail"></span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-</form>
-
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-            
-    </table>
     <div class="d-flex justify-content-center">
     {{ $posts->links('vendor.pagination.pagination') }}
     </div>
 
 
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
-        $('#postModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            $.ajax({
-                url: '/posts/' + id + '/view',
-                type: 'GET',
-                success: function(response) {
-                    $('#postTitle').text(response.title);
-                    $('#postDescription').text(response.description);
-                    $('#postUsername').text(response.username);
-                    $('#postUseremail').text(response.useremail);
-                }
-            });
+    $('.view-post').click(function() {
+        event.preventDefault();
+        var postId = $(this).data('id');
+        $.ajax({
+            url: '/posts/' + postId + '/view',
+            type: 'GET',
+            success: function(response) {
+                $('#postTitle').text(response.title);
+                $('#postDescription').text(response.description);
+                $('#postUsername').text(response.username);
+                $('#postUseremail').text(response.useremail);
+                $('#postModal').modal('show');
+            }
         });
     });
+});
 </script>
+
 @endsection
 
 
