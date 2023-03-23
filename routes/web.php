@@ -33,6 +33,8 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
+    // ============remove old posts=================
+    Route::get("/posts/removeOld",[PostController::class,"removePosts"]);
     
 });
 

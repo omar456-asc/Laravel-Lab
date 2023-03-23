@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\PruneOldPostsJob;
 
 class PostController extends Controller
 {
@@ -28,7 +29,7 @@ class PostController extends Controller
         return view('post.create', compact('users'));
     }
 
-    public function store(StorePostRequest $request)
+    public function store(Request $request)
     {
         $title = $request->title;
         //dd($title);
@@ -44,7 +45,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')
                          ->with('success', 'Post created successfully.');
     }
-
+    
     public function edit($id)
     {
         $post = Post::findOrFail($id);
@@ -75,14 +76,17 @@ class PostController extends Controller
         return redirect()->back();
     }  
     public function view($id)
-{
-    $post = Post::find($id);
-
-    return response()->json([
-        'title' => $post->title,
-        'description' => $post->description,
-        'username' => $post->user->name,
-        'useremail' => $post->user->email,
-    ]);
-}
+    {
+        $post = Post::find($id);
+        return response()->json([
+            'title' => $post->title,
+            'description' => $post->description,
+            'username' => $post->user->name,
+            'useremail' => $post->user->email,
+        ]);
+    }
+    public function removePosts()
+    {
+      PruneOldPostsJob::dispatch();
+    }
 }

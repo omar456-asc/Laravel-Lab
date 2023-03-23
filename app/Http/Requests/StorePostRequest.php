@@ -26,6 +26,7 @@ class StorePostRequest extends FormRequest
         return [
             'title' => ['required', 'min:3'],
             'description' => ['required', 'min:5'],
+            'user_id' => 'exists:users,id',
         ];
     }
     public function messages(): array
