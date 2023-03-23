@@ -9,19 +9,19 @@ use App\Models\Comment;
 class AddComment extends Component
 {
     public $post;
+    public $comments;
+    public $comment;
 
-public $comment;
+    public function addComment()
+    {
+        $this->post->comments()->create([
+        "comment"=> $this->comment
+        ]);
+        $this->emit("commentAdded");
 
-public function addComment()
-{
-    $this->validate([
-        'comment' => 'required',
-    ]);
-
-    $this->post->comments()->create([
-        'body' => $this->comment,
-    ]);
-
-    $this->comment = '';
-}
+    }
+    public function render()
+    {
+        return view('livewire.add-comment');
+    }
 }

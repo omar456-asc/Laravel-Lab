@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -27,7 +28,7 @@ class PostController extends Controller
         return view('post.create', compact('users'));
     }
 
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
         $title = $request->title;
         //dd($title);
