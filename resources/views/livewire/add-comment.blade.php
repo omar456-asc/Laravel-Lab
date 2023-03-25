@@ -9,7 +9,7 @@
         <label for="comment" class="form-label">Comment</label>
         <textarea class="form-control" name="comment" id="comment" wire:model="comment"></textarea>
       </div>
-      <button type="button" wire:click="addComment" class="btn btn-primary">Update</button>
+      <button type="button" wire:click="addComment" class="btn btn-primary">Add Comment</button>
     </div>
   </div>
 </div>

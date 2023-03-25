@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\MaxPosts;
 
 class StorePostRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +25,10 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'min:3'],
+            
+            'title' => ['required', 'min:3','unique:posts,title'],
             'description' => ['required', 'min:5'],
-            'user_id' => 'exists:users,id',
+            'user_id' => ['required','exists:users,id',new MaxPosts()],
             'image' => ['required','mimes:jpg,png'],
         ];
     }
