@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,14 +44,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-// Redirect the user to the GitHub authentication page
-Route::get('login/github', [App\Http\Controllers\SocialLoginController::class, 'redirectToProvider'])->name('login.github');
-
-// Obtain the user information from GitHub
-Route::get('login/github/callback', [App\Http\Controllers\SocialLoginController::class, 'handleProviderCallback']);
-
-// Redirect the user to the Google authentication page
-Route::get('login/google', [App\Http\Controllers\SocialLoginController::class, 'redirectToProvider'])->name('login.google');
-
-// Obtain the user information from Google
-Route::get('login/google/callback', [App\Http\Controllers\SocialLoginController::class, 'handleProviderCallback']);
+Route::get("/auth/{provider}/redirect",[SocialiteController::class,'redirect'])->name("auth.socilaite.redirect");
+Route::get("/auth/{provider}/callback",[SocialiteController::class,'callback'])->name("auth.socilaite.callback");
+Route::get("/auth/{provider}/info",[SocialiteController::class,'info'])->name("auth.socilaite.info");
