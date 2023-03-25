@@ -41,3 +41,16 @@ Route::group(['middleware' => ['auth']],function(){
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Redirect the user to the GitHub authentication page
+Route::get('login/github', [App\Http\Controllers\SocialLoginController::class, 'redirectToProvider'])->name('login.github');
+
+// Obtain the user information from GitHub
+Route::get('login/github/callback', [App\Http\Controllers\SocialLoginController::class, 'handleProviderCallback']);
+
+// Redirect the user to the Google authentication page
+Route::get('login/google', [App\Http\Controllers\SocialLoginController::class, 'redirectToProvider'])->name('login.google');
+
+// Obtain the user information from Google
+Route::get('login/google/callback', [App\Http\Controllers\SocialLoginController::class, 'handleProviderCallback']);
