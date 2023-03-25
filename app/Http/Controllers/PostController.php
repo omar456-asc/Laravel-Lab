@@ -32,11 +32,13 @@ class PostController extends Controller
     
     public function store(StorePostRequest $request)
   {
-        //$image = $request->file('image')->store('storage');
+        $tags = explode(",", $request->tags);
         $image = $request->file('image')->store('images',['disk' => "public"]);
         $data = $request->validated();
         $data["image"] = $image;
-        Post::create($data);
+        $data["tags"] = $tags;
+        $post =Post::create($data);
+        $post->syncTags($tags);
 
     return redirect()->route("posts.index");
   }

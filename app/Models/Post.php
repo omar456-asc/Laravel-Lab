@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
-
+use Spatie\Tags\HasTags;
 
 class Post extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasTags;
     
     use Sluggable;
     

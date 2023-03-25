@@ -11,6 +11,9 @@
             <h5 class="card-title">Title: {{$post['title']}}</h5>
             <p class="card-text">Description: {{$post['description']}}</p>
             <img src="{{Storage::url($post->image)}}" style="width: 250px" alt="No Image Uploaded">
+            <p class="mt-2">
+                Tags: @foreach($post->tags as $tag) <span class="badge rounded-pill text-bg-warning">{{$tag->name}}</span> @endforeach
+            </p>
         </div>
     </div>
 
