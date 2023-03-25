@@ -25,7 +25,8 @@
                 <a class="navbar-brand" href="{{route('posts.index')}}">
                     {{ config('app.name', 'All Posts') }}
                 </a>
-                @if(auth()->user()->provider ==="github")
+        @if(isset(auth()->user()->provider))
+                @if(auth()->user()->provider ==="github" ?? false)
         <a class="navbar-item text-decoration-none text-secondary ms-3" href="{{ route('auth.socilaite.info','github') }}">
           github info
         </a>
@@ -33,10 +34,13 @@
         <a class="navbar-item text-decoration-none text-secondary ms-3" href="{{ route('auth.socilaite.redirect','github') }}">
           github
         </a>
-      @endif
+                @endif
+        @endif
 
 
-      @if(auth()->user()->provider ==="google")
+    @if(isset(auth()->user()->provider))
+
+        @if(auth()->user()->provider ==="google" ?? false)
         <a class="navbar-item text-decoration-none text-secondary ms-3" href="{{ route('auth.socilaite.info','google') }}">
           google info
         </a>
@@ -44,8 +48,10 @@
         <a class="navbar-item text-decoration-none text-secondary ms-3" href="{{ route('auth.socilaite.redirect','google') }}">
           google
         </a>
-      @endif
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        @endif
+    @endif
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
